@@ -8,18 +8,30 @@ export const authAPI = {
           res({ id: 1, login: "alex@example.com" });
         }, 1000);
       } else {
-        setTimeout(() => {
-          rej(`User ${login} not found`);
-        }, 1000);
+        if (password === "password") {
+          setTimeout(() => {
+            rej(`User ${login} not found`);
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            rej(`Password or login are incorrect`);
+          }, 1000);
+        }
       }
     });
   },
 
-  logout() {
+  logout(value: string) {
     return new Promise((res, rej) => {
-      setTimeout(() => {
-        res("user out");
-      }, 1000);
+      if (value === "b") {
+        setTimeout(() => {
+          res("user out");
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          rej("network error");
+        }, 1000);
+      }
     });
   },
 };

@@ -7,6 +7,8 @@ type ProfilePropsType = {
   isLogin: boolean;
   setIsLogin: (isLogin: boolean) => void;
   loginUser: (values: FormValues) => void;
+  error: string;
+  isDisabled: boolean;
 };
 export type FormValues = {
   login: string;
@@ -52,6 +54,7 @@ export const Login = (props: ProfilePropsType) => {
       authAPI.login(login, password, rememberMe);*/
 
       props.loginUser(values);
+      formik.resetForm();
     },
   });
 
@@ -60,16 +63,19 @@ export const Login = (props: ProfilePropsType) => {
   }
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="login">Login</label>
-      <input id="login" name="login" type="login" onChange={formik.handleChange} value={formik.values.login} />
-      {formik.errors.login && formik.touched.login ? <div className={s.error}>{formik.errors.login}</div> : null}
-      <label htmlFor="password">Password</label>
-      <input id="password" name="password" type="password" onChange={formik.handleChange} value={formik.values.password} />
-      {formik.errors.password && formik.touched.password ? <div className={s.error}>{formik.errors.password}</div> : null}
-      <button onClick={onClickHandler} type="submit">
-        Submit
-      </button>
-    </form>
+    <div>
+      <form onSubmit={formik.handleSubmit}>
+        <label htmlFor="login">Login</label>
+        <input id="login" name="login" type="login" onChange={formik.handleChange} value={formik.values.login} />
+        {formik.errors.login && formik.touched.login ? <div className={s.error}>{formik.errors.login}</div> : null}
+        <label htmlFor="password">Password</label>
+        <input id="password" name="password" type="password" onChange={formik.handleChange} value={formik.values.password} />
+        {formik.errors.password && formik.touched.password ? <div className={s.error}>{formik.errors.password}</div> : null}
+        <button onClick={onClickHandler} type="submit" disabled={props.isDisabled}>
+          Submit
+        </button>
+      </form>
+      <div>{props.error && props.error}</div>
+    </div>
   );
 };
